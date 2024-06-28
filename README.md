@@ -55,17 +55,31 @@ Extract the embeddings of mRNA sequences:
 ```python
 seq = ["A T C G G A GGG CCC TTT", 
        "A T C G", 
-       "TTT CCC GAC ATG"]
+       "TTT CCC GAC ATG"]  #Separate the sequences with spaces.
+
 encoding = tokenizer.batch_encode_plus(seq, add_special_tokens=True, padding='longest', return_tensors="pt")
+
 input_ids = encoding['input_ids']
 attention_mask = encoding['attention_mask'] 
+
 output = model(input_ids=input_ids, attention_mask=attention_mask)
 last_hidden_state = output[0]
+
 attention_mask = attention_mask.unsqueeze(-1).expand_as(last_hidden_state)  # Shape : [batch_size, seq_length, hidden_size]
-sum_embeddings = torch.sum(last_hidden_state * attention_mask, dim=1)  # Sum embeddings along the batch dimension
-sum_masks = attention_mask.sum(1)  # Also sum the masks along the batch dimension
-mean_embedding = sum_embeddings / sum_masks  # Compute mean embedding. Shape:[batch_size, hidden_size]  
+
+# Sum embeddings along the batch dimension
+sum_embeddings = torch.sum(last_hidden_state * attention_mask, dim=1)  
+
+# Also sum the masks along the batch dimension
+sum_masks = attention_mask.sum(1)  
+
+# Compute mean embedding.
+mean_embedding = sum_embeddings / sum_masks  #Shape:[batch_size, hidden_size]  
+
 ```
+
+The extracted embeddings can be used for contrastive learning pretraining or as a feature extractor for protein-related downstream tasks.
+
 
 
 ## Pre-Training
