@@ -30,7 +30,7 @@ mRNABERT is a robust language model pre-trained on over 18 million high-quality 
 
 The pre-trained model is available at [Huggingface](https://huggingface.co/YYLY66/mRNABERT) as `YYLY66/mRNABERT`. 
 
-The mRNA datasets are available on [Zendo](https://zenodo.org/records/12527829), featuring more than 3.6 million comprehensive mRNA or CDS sequences from various species.
+The mRNA datasets are available on [Zendo](https://zenodo.org/records/12527829), featuring more than 36 million comprehensive mRNA or CDS sequences from various species.
 
 ![GUE](figures/mRNABERT.png)
 
