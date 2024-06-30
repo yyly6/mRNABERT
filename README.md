@@ -94,23 +94,24 @@ python data_process/process_pretrain_data.py --input_file "data_process/pre-trai
 ```
 ### Pretraining stage 1
 ```
-python  run_mlm.py \
-  --output_dir = output/pre/mRNABERT- \
+python run_mlm.py \
+  --output_dir=output/pre/mRNABERT- \
   --model_type=bert \
-  --model_name_or_path = YYLY66/mRNABERT \
-  --do_train  \
-  --learning_rate 5e-5 \
-  --num_train_epochs  10  \
-  --gradient_accumulation_steps 4 \
-  --train_file= /sample_data/pre.txt \
+  --model_name_or_path=YYLY66/mRNABERT \
+  --do_train \
+  --learning_rate=5e-5 \
+  --num_train_epochs=10 \
+  --gradient_accumulation_steps=4 \
+  --train_file=/sample_data/pre.txt \
   --fp16 \
-  --save_steps  2000 \
-  --logging_steps 500 \
-  --eval_steps 500 \
-  --warmup_steps 10000 \
-  --mlm_probability 0.15 \
+  --save_steps=1000 \
+  --logging_steps=500 \
+  --eval_steps=500 \
+  --warmup_steps=2000 \
+  --mlm_probability=0.15 \
   --line_by_line \
-  --per_device_train_batch_size = 128
+  --per_device_train_batch_size=32
+
 ```
 ### Pretraining stage 2
 We used the [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) for contrastive learning.You can modify the code using the embedding extraction method mentioned above and reproduce the model training.
@@ -132,50 +133,50 @@ Then, you are able to finetune mRNABERT with the following code:
 ```
 #For regression tasks
 
-export DATA_PATH= sample_data/fine-tune/mRFP
+export DATA_PATH=/sample_data/fine-tune/mRFP
 python regression.py \
-    --model_name_or_path  YYLY66/mRNABERT \
-    --data_path   ${DATA_PATH}   \
+    --model_name_or_path=YYLY66/mRNABERT \
+    --data_path ${DATA_PATH} \
     --run_name mRNABERT_${DATA_PATH} \
-    --model_max_length 250 \  #set as the number of tokens.  
+    --model_max_length 250 \  #set as the number of tokens
     --per_device_train_batch_size 16 \
     --per_device_eval_batch_size 8 \
     --gradient_accumulation_steps 1 \
     --learning_rate 5e-5 \
     --num_train_epochs 50 \
-    --save_steps 100 \
+    --save_steps 10 \
     --output_dir output/${DATA_PATH} \
     --evaluation_strategy steps \
-    --eval_steps 100 \
-    --warmup_steps 100 \
-    --logging_steps 100 \
+    --eval_steps 10 \
+    --warmup_steps 10 \
+    --logging_steps 10 \
     --overwrite_output_dir True \
     --log_level info \
-    --find_unused_parameters False         
+    --find_unused_parameters False     
 ```
 ```
 #For classification tasks
 
-export DATA_PATH= $path/to/data/folder
+export DATA_PATH=$path/to/data/folder
 python classification.py \
-    --model_name_or_path  YYLY66/mRNABERT \
-    --data_path   ${DATA_PATH}   \
+    --model_name_or_path=YYLY66/mRNABERT \
+    --data_path ${DATA_PATH} \
     --run_name mRNABERT_${DATA_PATH} \
-    --model_max_length 500 \  #set as the number of tokens.  
+    --model_max_length 250 \  #set as the number of tokens
     --per_device_train_batch_size 16 \
     --per_device_eval_batch_size 8 \
     --gradient_accumulation_steps 1 \
     --learning_rate 5e-5 \
-    --num_train_epochs 20 \
-    --save_steps 100 \
+    --num_train_epochs 50 \
+    --save_steps 10 \
     --output_dir output/${DATA_PATH} \
     --evaluation_strategy steps \
-    --eval_steps 100 \
-    --warmup_steps 100 \
-    --logging_steps 100 \
+    --eval_steps 10 \
+    --warmup_steps 10 \
+    --logging_steps 10 \
     --overwrite_output_dir True \
     --log_level info \
-    --find_unused_parameters False         
+    --find_unused_parameters False       
 ```
 You need to choose different `batch sizes` and `epochs` based on the dataset to achieve optimal results. Incidentally, you can also use this code to test other benchmark models through HuggingFace.
 
