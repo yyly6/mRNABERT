@@ -1,6 +1,6 @@
 # mRNABERT
 
-This repository includes the official implementation of [A Universal Model Integrating Multimodal Data for Comprehensive mRNA Property Prediction](https://arxiv.org/abs/2306.15006). We provide pre-trained model, examples of pre-training and fine-tuning, and pre-trained datasets.
+This repository includes the official implementation of [A Universal Model Integrating Multimodal Data for Comprehensive mRNA Property Prediction](). We provide pre-trained model, examples of pre-training and fine-tuning, and pre-trained datasets.
 
 ## Contents
 
