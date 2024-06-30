@@ -16,6 +16,7 @@ This repository includes the official implementation of [A Universal Model Integ
 
 mRNABERT is a robust language model pre-trained on over 18 million high-quality mRNA sequences, incorporating contrastive learning to integrate the semantic features of amino acids.
 
+![GUE](figures/mRNABERT.png)
 
 ## Create Environment with Conda
 
@@ -30,11 +31,11 @@ mRNABERT is a robust language model pre-trained on over 18 million high-quality 
 
 The pre-trained model is available at [Huggingface](https://huggingface.co/YYLY66/mRNABERT) as `YYLY66/mRNABERT`. 
 
-The mRNA datasets are available on [Zendo](https://zenodo.org/records/12527829), featuring more than 36 million comprehensive mRNA or CDS sequences from various species.
+The mRNA datasets are available on [Zendo](https://zenodo.org/records/12516160), featuring more than 36 million comprehensive mRNA or CDS sequences from various species.
 
-![GUE](figures/mRNABERT.png)
 
-**Notably, the data needs to be preprocessed.** We use [ORFfinder from NCBI](https://www.ncbi.nlm.nih.gov/orffinder) to predict the CDS regions of the mRNA. Then, please preprocess the data in different ways: use single-letter separation for the UTR regions and three-character separation for the CDS regions. We have provided custom functions: `Predict` is used for CDS prediction and outputs the annotated sequences, while `Splict` is used to split the sequence, for example:
+
+**Notably, the data needs to be preprocessed.** We use [ORFfinder from NCBI](https://www.ncbi.nlm.nih.gov/orffinder) to predict the CDS regions of the mRNA. Then, please preprocess the data in different ways: use single-letter separation for the UTR regions and three-character separation for the CDS regions. We have provided custom functions and sample data before preprocessing in `data_process`.
 
 
 ### Access Pre-trained Models
@@ -84,24 +85,28 @@ The extracted embeddings can be used for contrastive learning pretraining or as 
 
 ## Pre-Training
 ### Data processing
-Please see the template data at `/examples/sample_data/pre`, you should process your data into the same format as it. Please use `process_pretrain_data` for CDS prediction and  split.
+Please see the template data at `/sample_data/pre.txt`, you should process your data into the same format as it. Please use `/data_process/process_pretrain_data` for CDS prediction and split.
+
+for example:
+```
+python data_process/process_pretrain_data.py --input_file "data_process/pre-train/pre_input.fasta" --output_file "sample_data/pre.txt"  
+```
 ### Pretraining stage 1
 ```
 python  run_mlm.py \
-  --output_dir= output/pretrain \
+  --output_dir = output/pre/mRNABERT- \
   --model_type=bert \
   --model_name_or_path = YYLY66/mRNABERT \
-  --cache_dir= output/mRNABERT \
   --do_train  \
   --learning_rate 5e-5 \
   --num_train_epochs  10  \
   --gradient_accumulation_steps 4 \
-  --train_file= /examples/sample_data/pre \
+  --train_file= /sample_data/pre.txt \
   --fp16 \
   --save_steps  2000 \
   --logging_steps 500 \
   --eval_steps 500 \
-  --warmup_steps 1000 \
+  --warmup_steps 10000 \
   --mlm_probability 0.15 \
   --line_by_line \
   --per_device_train_batch_size = 128
@@ -112,7 +117,13 @@ We used the [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) for c
 
 ## Fine-tuning
 ### Data processing
-Please see the template data at `/example/sample_data/ft/` and generate `3 csv files` from your dataset into the same format as it.Each file needs to have two columns with the header row labeled as `sequence` and `label`. Please use `process_finetune_data` for split. You can specify different split methods based on the types of data: `utr` for UTR sequences, `cds` for CDS sequences, and `complete` for complete mRNA sequences.
+Please see the template data at `/sample_data/fine-tune/mRFP` and generate `3 csv files` from your dataset into the same format as it.Each file needs to have two columns with the header row labeled as `sequence` and `label`. Please use `process_finetune_data` for split.
+
+for example:
+```
+python data_process/process_finetune_data.py  --input_dir "data_process/fine-tune/mRFP"  --output_dir "sample_data/fine-tune/mRFP" --split_option "codon"     
+```
+ You can specify different split option based on the types of data: `utr` for UTR sequences, `cds` for CDS sequences, and `complete` for complete mRNA sequences. NOTE,please use '[' and ']' to mark CDS if you choose `complete` option.
 
 ### Fine-tune with pre-trained model
 Then, you are able to finetune mRNABERT with the following code:
@@ -120,19 +131,19 @@ Then, you are able to finetune mRNABERT with the following code:
 ```
 #For regression tasks
 
-export DATA_PATH= /example/sample_data/ft
+export DATA_PATH= sample_data/fine-tune/mRFP
 python regression.py \
     --model_name_or_path  YYLY66/mRNABERT \
     --data_path   ${DATA_PATH}   \
     --run_name mRNABERT_${DATA_PATH} \
-    --model_max_length 500 \  #set as the number of tokens.  
+    --model_max_length 250 \  #set as the number of tokens.  
     --per_device_train_batch_size 16 \
     --per_device_eval_batch_size 8 \
     --gradient_accumulation_steps 1 \
     --learning_rate 5e-5 \
-    --num_train_epochs 20 \
+    --num_train_epochs 50 \
     --save_steps 100 \
-    --output_dir output/finetune \
+    --output_dir output/${DATA_PATH} \
     --evaluation_strategy steps \
     --eval_steps 100 \
     --warmup_steps 100 \
@@ -144,7 +155,7 @@ python regression.py \
 ```
 #For classification tasks
 
-export DATA_PATH= /example/sample_data/ft
+export DATA_PATH= $path/to/data/folder
 python classification.py \
     --model_name_or_path  YYLY66/mRNABERT \
     --data_path   ${DATA_PATH}   \
@@ -156,7 +167,7 @@ python classification.py \
     --learning_rate 5e-5 \
     --num_train_epochs 20 \
     --save_steps 100 \
-    --output_dir output/finetune \
+    --output_dir output/${DATA_PATH} \
     --evaluation_strategy steps \
     --eval_steps 100 \
     --warmup_steps 100 \
@@ -165,7 +176,7 @@ python classification.py \
     --log_level info \
     --find_unused_parameters False         
 ```
-Incidentally, you can also use this code to test other benchmark models through HuggingFace.
+You need to choose different `batch sizes` and `epochs` based on the dataset to achieve optimal results.Incidentally, you can also use this code to test other benchmark models through HuggingFace.
 
 
 ## Citation
