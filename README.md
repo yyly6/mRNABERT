@@ -39,7 +39,7 @@ The mRNA datasets are available on [Zendo](https://zenodo.org/records/12516160),
 
 
 ### Access Pre-trained Models
-You can download the pre-trained models from [Huggingface](https://huggingface.co/YYLY66/mRNABERT), or load the model from huggingface：
+You can download the pre-trained models from [Huggingface](https://huggingface.co/YYLY66/mRNABERT), or load the model directly：
 
 ```python
 import torch
@@ -117,7 +117,7 @@ We used the [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) for c
 
 ## Fine-tuning
 ### Data processing
-Please see the template data at `/sample_data/fine-tune/mRFP` and generate `3 csv files` from your dataset into the same format as it.Each file needs to have two columns with the header row labeled as `sequence` and `label`. Please use `process_finetune_data` for split.
+Please see the template data at `/sample_data/fine-tune/mRFP` and generate `3 csv files` from your dataset into the same format as it. Each file needs to have two columns with the header row labeled as `sequence` and `label`. Please use `process_finetune_data` for split.
 
 for example:
 ```
@@ -176,7 +176,7 @@ python classification.py \
     --log_level info \
     --find_unused_parameters False         
 ```
-You need to choose different `batch sizes` and `epochs` based on the dataset to achieve optimal results.Incidentally, you can also use this code to test other benchmark models through HuggingFace.
+You need to choose different `batch sizes` and `epochs` based on the dataset to achieve optimal results. Incidentally, you can also use this code to test other benchmark models through HuggingFace.
 
 
 ## Citation
@@ -186,7 +186,7 @@ If you find the models useful in your research, please cite our paper:
 ```
 
 ```
-The model of this code builds on the [DNABERT-2](https://github.com/MAGICS-LAB/DNABERT_2?tab=readme-ov-file#2-model-and-data) modeling framework. We use [transformers](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling) and [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) framework to train our mRNA language models and [MultiMolecule](https://huggingface.co/multimolecule) for testing and comparing various benchmark models. We really appreciate these excellent works!
+The model of this code builds on the [DNABERT-2](https://arxiv.org/abs/2306.15006) modeling framework. We use [transformers](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling) and [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) framework to train our mRNA language models and [MultiMolecule](https://huggingface.co/multimolecule) for testing and comparing various benchmark models. We really appreciate these excellent works!
 
 ## Contact
-If you have any question, please feel free to email us (22360244@zju.edu.cn).
+If you have any question, please feel free to email us (xiongying@zju.edu.cn).
