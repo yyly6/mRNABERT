@@ -25,7 +25,8 @@ mRNABERT is a robust language model pre-trained on over 18 million high-quality 
     conda activate mrnabert
     
     # install required packages
-    python3 -m pip install -r requirements.txt
+    pip install -r requirements.txt
+    pip uninstall triton
 
 ## Pre-trained Model and Datasets
 

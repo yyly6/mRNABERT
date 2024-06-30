@@ -10,7 +10,7 @@ import transformers
 import sklearn
 import numpy as np
 from torch.utils.data import Dataset
-
+from transformers.models.bert.configuration_bert import BertConfig
 from peft import LoraConfig, get_peft_model
 
 @dataclass
@@ -170,12 +170,12 @@ def train():
         data_path=os.path.join(data_args.data_path, "test.csv")
     )
     data_collator = DataCollatorForSupervisedDataset(tokenizer=tokenizer)
-
+    config = BertConfig.from_pretrained(model_args.model_name_or_path, num_labels=train_dataset.num_labels)
     model = transformers.AutoModelForSequenceClassification.from_pretrained(
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
-        num_labels=train_dataset.num_labels,
         trust_remote_code=True,
+        config=config
     )
 
     if model_args.use_lora:

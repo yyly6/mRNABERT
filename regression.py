@@ -18,6 +18,7 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.nn.parallel import DistributedDataParallel as DDP
 from tqdm import tqdm
 from transformers import BertConfig, BertForSequenceClassification, AutoModel, AutoTokenizer, Trainer
+from transformers.models.bert.configuration_bert import BertConfig
 from peft import LoraConfig, get_peft_model, get_peft_model_state_dict
 
 @dataclass
@@ -149,12 +150,12 @@ def train():
     """Train the model."""
     parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-
+    config = BertConfig.from_pretrained(model_args.model_name_or_path, num_labels=1,)
     model = transformers.AutoModelForSequenceClassification.from_pretrained(
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
-        num_labels=1,
         trust_remote_code=True,
+        config=config
     )
 
     if model_args.use_lora:
