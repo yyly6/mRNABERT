@@ -1,0 +1,12 @@
+datasets
+evaluate
+numpy
+pandas
+peft
+scikit_learn
+scipy
+torch
+tqdm
+transformers==4.32.0
+sentencepiece
+accelerate
