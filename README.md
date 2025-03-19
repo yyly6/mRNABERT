@@ -28,6 +28,13 @@ mRNABERT is a robust language model pre-trained on over 18 million high-quality 
     pip install -r requirements.txt
     pip uninstall triton
 
+Furthermore, to streamline the setup process, we have prepared a pre-configured Conda environment containing all mRNABERT dependencies at [Zendo](https://zenodo.org/records/15051237). You can easily download and extract it into your Conda environments directory, and it will be ready to use immediately.
+
+    mkdir -C /path/to//miniconda3/envs/mrnabert
+    tar -xzvf /path/to/mrnabert.tar.gz -C /path/to/miniconda3/envs/mrnabert
+    conda activate mrnabert
+
+
 ## Pre-trained Model and Datasets
 
 The pre-trained model is available at [Huggingface](https://huggingface.co/YYLY66/mRNABERT) as `YYLY66/mRNABERT`. 
@@ -188,7 +195,7 @@ If you find the models useful in your research, please cite our paper:
 ```
 
 ```
-The model of this code builds on the [DNABERT-2](https://arxiv.org/abs/2306.15006) modeling framework. We use [transformers](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling) and [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) framework to train our mRNA language models and [MultiMolecule](https://huggingface.co/multimolecule) for testing and comparing various benchmark models. We really appreciate these excellent works!
+The model of this code builds on the [DNABERT-2](https://arxiv.org/abs/2306.15006) modeling framework. We use [transformers](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling) and [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) framework to train our mRNA language models and [MultiMolecule](https://github.com/DLS5-Omics/multimolecule) for testing and comparing various benchmark models. We really appreciate these excellent works!
 
 ## Contact
 If you have any question, please feel free to email us (xiongying@zju.edu.cn).

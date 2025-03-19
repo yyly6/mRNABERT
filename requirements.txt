@@ -10,4 +10,4 @@ torch
 tqdm
 transformers==4.32.0
 sentencepiece
-accelerate
+accelerate==0.24.1
