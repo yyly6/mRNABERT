@@ -1,6 +1,6 @@
 # mRNABERT
 
-This repository includes the official implementation of [A Universal Model Integrating Multimodal Data for Comprehensive mRNA Property Prediction](). We provide pre-trained model, examples of pre-training and fine-tuning, and pre-trained datasets.
+This repository includes the official implementation of [mRNABERT: advancing mRNA sequence design with a universal language model and comprehensive dataset](https://www.nature.com/articles/s41467-025-65340-8). We provide pre-trained model, examples of pre-training and fine-tuning, and pre-trained datasets.
 
 ## Contents
 
@@ -16,7 +16,7 @@ This repository includes the official implementation of [A Universal Model Integ
 
 mRNABERT is a robust language model pre-trained on over 18 million high-quality mRNA sequences, incorporating contrastive learning to integrate the semantic features of amino acids.
 
-![GUE](figures/mRNABERT.png)
+![mRNABERT](figures/mRNABERT.png)
 
 ## Create Environment with Conda
 
@@ -28,7 +28,7 @@ mRNABERT is a robust language model pre-trained on over 18 million high-quality 
     pip install -r requirements.txt
     pip uninstall triton
 
-Furthermore, to streamline the setup process, we have prepared a pre-configured Conda environment containing all mRNABERT dependencies at [Zendo](https://zenodo.org/records/15051237). You can easily download and extract it into your Conda environments directory, and it will be ready to use immediately.
+Furthermore, to streamline the setup process, we have prepared a pre-configured Conda environment containing all mRNABERT dependencies at [Zenodo](https://zenodo.org/records/15051237). You can easily download and extract it into your Conda environments directory, and it will be ready to use immediately.
 
     mkdir -C /path/to//miniconda3/envs/mrnabert
     tar -xzvf /path/to/mrnabert.tar.gz -C /path/to/miniconda3/envs/mrnabert
@@ -39,7 +39,7 @@ Furthermore, to streamline the setup process, we have prepared a pre-configured 
 
 The pre-trained model is available at [Huggingface](https://huggingface.co/YYLY66/mRNABERT) as `YYLY66/mRNABERT`. 
 
-The mRNA datasets are available on [Zendo](https://zenodo.org/records/12516160), featuring more than 36 million comprehensive mRNA or CDS sequences from various species.
+The mRNA datasets are available on [Zenodo](https://zenodo.org/records/12516160), featuring more than 36 million comprehensive mRNA or CDS sequences from various species.
 
 
 
@@ -193,8 +193,18 @@ You need to choose different `batch sizes` and `epochs` based on the dataset to 
 If you find the models useful in your research, please cite our paper:
 
 ```
-
+@article{xiong2025mrnabert,
+  title={mRNABERT: advancing mRNA sequence design with a universal language model and comprehensive dataset},
+  author={Xiong, Ying and Wang, Aowen and Kang, Yu and Shen, Chao and Hsieh, Chang-Yu and Hou, Tingjun},
+  journal={Nature Communications},
+  volume={16},
+  number={1},
+  pages={10371},
+  year={2025},
+  publisher={Nature Publishing Group UK London},
+}
 ```
+
 The model of this code builds on the [DNABERT-2](https://arxiv.org/abs/2306.15006) modeling framework. We use [transformers](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling) and [OpenAI-CLIP](https://github.com/moein-shariatnia/OpenAI-CLIP) framework to train our mRNA language models and [MultiMolecule](https://github.com/DLS5-Omics/multimolecule) for testing and comparing various benchmark models. We really appreciate these excellent works!
 
 ## Contact
