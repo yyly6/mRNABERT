@@ -2,6 +2,17 @@
 
 This repository includes the official implementation of [mRNABERT: advancing mRNA sequence design with a universal language model and comprehensive dataset](https://www.nature.com/articles/s41467-025-65340-8). We provide pre-trained model, examples of pre-training and fine-tuning, and pre-trained datasets.
 
+## 📢 Update
+
+**We have released all downstream datasets on Zenodo** 
+
+You can access and download the datasets [here](https://zenodo.org/records/17786045).
+
+To reproduce our results, please follow the instructions in the **[Fine-tune with pre-trained model](#fine-tuning)** section.
+
+> ⚠️ **Note on Hyperparameters:**
+> When fine-tuning, please make sure to adjust parameters such as `model_max_length`, `batch_size`, `epoch`, and `eval_steps` according to the specific dataset you are using.
+
 ## Contents
 
 - [Introduction](#introduction)
